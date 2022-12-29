@@ -4,7 +4,7 @@ import CompletedTodos from '../CompletedTodos/CompletedTodos';
 const CompletedTask = () => {
     const [todos, setTodos] = useState([]);
     useEffect(() =>{
-        fetch('http://localhost:4000/mytask')
+        fetch('https://task-planner-server.vercel.app/mytask')
         .then(res => res.json())
         .then(data => setTodos(data))
     }, []);

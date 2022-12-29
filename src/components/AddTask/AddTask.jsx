@@ -28,7 +28,7 @@ const AddTask = () => {
                     date: entryDate
                 };
                 //Saving Data to DB
-                fetch('http://localhost:4000/mytask', {
+                fetch('https://task-planner-server.vercel.app/mytask', {
                     method: "POST",
                     headers: {
                         "content-type": "application/json"

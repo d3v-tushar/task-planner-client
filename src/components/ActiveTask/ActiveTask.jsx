@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from "react";
 import { Dialog, Transition } from '@headlessui/react'
 
-const ActiveTask = ({todo}) => {
+const ActiveTask = ({todo, setTodos}) => {
     const [isOpen, setIsOpen] = useState(false)
 
     function closeModal() {
@@ -11,6 +11,22 @@ const ActiveTask = ({todo}) => {
     function openModal() {
       setIsOpen(true)
     }
+
+    const handleDelete = (todo) => {
+      console.log(`Deleting Review With Id: ${todo._id}`);
+      fetch(`https://task-planner-server.vercel.app/mytask/${todo._id}`, {
+        method: "DELETE",
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.deletedCount > 0) {
+            toast.success("Task Deleted!");
+            const remainingTodo = todo.filter((tds) => tds._id !== todo._id);
+            setTodos(remainingTodo);
+           }
+        });
+    };
 
   return (
     <>
@@ -55,6 +71,7 @@ const ActiveTask = ({todo}) => {
           Update Task
         </button>
         <button
+        onClick={() =>handleDelete(todo)}
               className="rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
             >
               Delete Task
@@ -94,7 +111,7 @@ const ActiveTask = ({todo}) => {
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
                   >
-                    Payment successful
+                    {todo.title}
                   </Dialog.Title>
                   <div className="mt-2">
                   <textarea
