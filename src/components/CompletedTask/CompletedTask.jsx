@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import CompletedTodos from '../CompletedTodos/CompletedTodos';
 
 const CompletedTask = () => {
+    const [todos, setTodos] = useState([]);
+    useEffect(() =>{
+        fetch('http://localhost:4000/mytask')
+        .then(res => res.json())
+        .then(data => setTodos(data))
+    }, []);
+    console.log(todos);
     return (
-        <div>
-            <h2>Completed Task Page</h2>
+        <div className='w-4/5 mx-auto my-7'>
+            {
+                todos.map((todo, index) => <CompletedTodos key={index} todo={todo}></CompletedTodos>)
+            }
         </div>
     );
 };
