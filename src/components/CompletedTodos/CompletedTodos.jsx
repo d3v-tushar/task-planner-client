@@ -26,15 +26,15 @@ const CompletedTodos = ({todo, todos, setTodos}) => {
   }
   return (
     <div>
-      <article className="flex bg-white transition hover:shadow-xl dark:bg-gray-800 dark:shadow-gray-800/25 my-3">
+      <article className="flex bg-gray-200 transition hover:shadow-xl dark:bg-gray-800 dark:shadow-gray-800/25 my-3">
         <div className="rotate-180 p-2 [writing-mode:_vertical-lr]">
-          <time
-            dateTime="2022-10-10"
+        <time
+            dateTime={todo.date ? todo.date : "2022-10-10"}
             className="flex items-center justify-between gap-4 text-xs font-bold uppercase text-gray-900 dark:text-white"
           >
-            <span>2022</span>
+            {/* <span>2022</span> */}
             <span className="w-px flex-1 bg-gray-900/10 dark:bg-white/10"></span>
-            <span>Oct 10</span>
+            <span>{todo.date}</span>
           </time>
         </div>
 

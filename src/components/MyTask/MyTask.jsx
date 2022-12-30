@@ -30,7 +30,7 @@ const MyTask = () => {
         ></ActiveTask>
       ))}
       {
-        todos.email && todos.length === 0 && <h2 className="text-3xl text-center text-gray-600 my-7 font-bold">No Task Found</h2>
+        todos.length === 0 && <h2 className="text-3xl text-center text-gray-600 my-7 font-bold">No Task Found</h2>
       }
     </div>
   );

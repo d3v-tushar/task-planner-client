@@ -23,6 +23,9 @@ const CompletedTask = () => {
             {
                 todos.map((todo, index) => <CompletedTodos key={index} todo={todo} todos={todos} setTodos={setTodos}></CompletedTodos>)
             }
+            {
+                todos.length === 0 && <h2 className="text-3xl text-center text-gray-600 my-7 font-bold">No Task Found</h2>
+            }
         </div>
     );
 };

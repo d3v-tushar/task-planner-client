@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
+import { BsFillMoonStarsFill } from "react-icons/bs";
 
-const Navbar = ({ dark, setDark }) => {
+const Navbar = ({ darkMode, setDarkMode }) => {
   const {logout, user} = useContext(AuthContext);
 
   const handleLogout = () =>{
@@ -34,37 +35,37 @@ const Navbar = ({ dark, setDark }) => {
               <ul className="flex items-center gap-6 text-sm">
                 <li>
                   <Link
-                    className="font-semibold text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
+                    className="font-semibold text-md text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
                     to="/"
                   >
-                    Add Task
+                    ADD TASK
                   </Link>
                 </li>
 
                 <li>
                   <Link
-                    className=" font-semibold text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
+                    className=" font-semibold text-md text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
                     to="/mytask"
                   >
-                    My Tasks
+                    MY TASKS
                   </Link>
                 </li>
 
                 <li>
                   <Link
-                    className="font-semibold text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
+                    className="font-semibold text-md text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
                     to="/completed"
                   >
-                    Completed
+                    COMPLETED
                   </Link>
                 </li>
 
                 <li>
                   <button
-                    onClick={() => setDark(!dark)}
-                    className="font-semibold text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
+                    onClick={() => setDarkMode(!darkMode)}
+                    className="font-semibold text-md mt-2 text-gray-500 transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
                   >
-                    Dark
+                    <BsFillMoonStarsFill/>
                   </button>
                 </li>
               </ul>

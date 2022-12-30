@@ -4,12 +4,12 @@ import Footer from '../../components/Footer/Footer';
 import Navbar from '../../components/Navbar/Navbar';
 
 const Main = () => {
-    const [dark, setDark] = useState(false);
+    const [darkMode, setDarkMode] = useState(true);
     return (
-        <div className={dark ? "dark" : undefined}>
+        <div className={darkMode ? "dark" : undefined}>
             <Navbar
-            dark={dark}
-            setDark={setDark}
+            darkMode={darkMode}
+            setDarkMode={setDarkMode}
             ></Navbar>
             <Outlet></Outlet>
             <Footer></Footer>
