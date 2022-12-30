@@ -1,8 +1,10 @@
 import React, { useState, Fragment } from "react";
 import { Dialog, Transition } from '@headlessui/react'
+import { toast } from "react-hot-toast";
 
-const ActiveTask = ({todo, setTodos}) => {
-    const [isOpen, setIsOpen] = useState(false)
+const ActiveTask = ({todo, todos, setTodos, user}) => {
+    //const filterd = todos.filter(flter => flter.status !== true);
+    const [isOpen, setIsOpen] = useState(false);
 
     function closeModal() {
       setIsOpen(false)
@@ -10,6 +12,63 @@ const ActiveTask = ({todo, setTodos}) => {
   
     function openModal() {
       setIsOpen(true)
+    }
+
+    const handleUpdate = (todo, e) =>{
+      e.preventDefault();
+      const form = e.target;
+      const discription = form.discription.value;
+      console.log(discription, todo._id);
+      const updateTask = {discription: discription};
+      fetch(`https://task-planner-server.vercel.app/mytask/${todo._id}`, {
+          method: "PUT",
+          headers: {
+              "content-type": "application/json"
+          },
+          body: JSON.stringify(updateTask)
+      })
+      .then(res => res.json())
+      .then(data =>{
+          if(data.modifiedCount > 0){
+              toast('Task Updated');
+              console.log(data);
+              const filterd = todos.filter(flter => flter._id !== todo._id);
+              const remaining = todos.find(flter => flter._id === todo._id);
+              console.log(remaining);
+              form.reset();
+              // remaining[message] = message;
+              // const currentReview = {...remaining};
+              // console.log(currentReview)
+              // currentReview.message = message;
+              // const newUpdate = [...currentReview, filterd];
+              // setMyReview(newUpdate);
+              closeModal();
+              window.location.reload();
+          }
+      })
+      
+    };
+
+    const handleComplete = (todo) =>{
+      fetch(`https://task-planner-server.vercel.app/mytask/${todo._id}`, {
+            method: 'PATCH',
+            headers: {
+                'content-type' : 'application/json',
+            },
+            body: JSON.stringify({completed: true})
+        })
+        .then(res => res.json())
+        .then(data =>{
+            console.log(data);
+            if(data.modifiedCount > 0){
+                const remaining = todos.filter(td => td._id !== todo._id);
+                const completed = todos.find(order => order._id === todo._id);
+                completed.status = 'completed';
+                
+                const newTasks = [completed, ...remaining];
+                setTodos(remaining);
+            }
+        })
     }
 
     const handleDelete = (todo) => {
@@ -22,8 +81,8 @@ const ActiveTask = ({todo, setTodos}) => {
           console.log(data);
           if (data.deletedCount > 0) {
             toast.success("Task Deleted!");
-            const remainingTodo = todo.filter((tds) => tds._id !== todo._id);
-            setTodos(remainingTodo);
+            const remainingTodos = todos.filter((tds) => tds._id !== todo._id);
+            setTodos(remainingTodos);
            }
         });
     };
@@ -36,9 +95,9 @@ const ActiveTask = ({todo, setTodos}) => {
             dateTime={todo.date ? todo.date : "2022-10-10"}
             className="flex items-center justify-between gap-4 text-xs font-bold uppercase text-gray-900 dark:text-white"
           >
-            <span>2022</span>
+            {/* <span>2022</span> */}
             <span className="w-px flex-1 bg-gray-900/10 dark:bg-white/10"></span>
-            <span>Oct 10</span>
+            <span>{todo.date}</span>
           </time>
         </div>
 
@@ -66,21 +125,27 @@ const ActiveTask = ({todo, setTodos}) => {
             <button
           type="button"
           onClick={openModal}
-          className="rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+          className="m-3 rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
         >
           Update Task
         </button>
         <button
         onClick={() =>handleDelete(todo)}
-              className="rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+              className=" m-3rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
             >
               Delete Task
+            </button>
+        <button
+        onClick={() =>handleComplete(todo)}
+              className="m-3 rounded-md bg-black bg-opacity-20 px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+            >
+              Mark Complete
             </button>
           </div>
         </div>
       </article>
 
-
+      {/* Modal */}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -113,19 +178,18 @@ const ActiveTask = ({todo, setTodos}) => {
                   >
                     {todo.title}
                   </Dialog.Title>
+                  <form onSubmit={(e) => handleUpdate(todo, e)}>
                   <div className="mt-2">
                   <textarea
                   className="w-full rounded-lg border-gray-200 p-3 text-sm"
                   placeholder="Task Details"
                   name="discription"
-                  rows="8"
+                  rows="6"
                   id="message"
                 ></textarea>
-                  </div>
-                  <form></form>
-
-                  <div className="mt-4">
-                    <button
+                <div className="mt-2 grid justify-center grid-cols-2">
+                <button className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2" type="submit">Update</button>
+                <button
                       type="button"
                       className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       onClick={closeModal}
@@ -133,6 +197,10 @@ const ActiveTask = ({todo, setTodos}) => {
                       Close!
                     </button>
                   </div>
+                  
+                    
+                  </div>
+                  </form>
                 </Dialog.Panel>
               </Transition.Child>
             </div>

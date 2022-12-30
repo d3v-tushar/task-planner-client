@@ -3,8 +3,10 @@ import AddTask from "../../components/AddTask/AddTask";
 import CompletedTask from "../../components/CompletedTask/CompletedTask";
 import Login from "../../components/Login/Login";
 import MyTask from "../../components/MyTask/MyTask";
+import NotFound from "../../components/NotFound/NotFound";
 import Register from "../../components/Register/Register";
 import Main from "../../layout/Main/Main";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const routes = createBrowserRouter([
     {
@@ -17,11 +19,11 @@ export const routes = createBrowserRouter([
             },
             {
                 path: '/mytask',
-                element: <MyTask></MyTask>
+                element: <PrivateRoute><MyTask></MyTask></PrivateRoute>
             },
             {
                 path: '/completed',
-                element: <CompletedTask></CompletedTask>
+                element: <PrivateRoute><CompletedTask></CompletedTask></PrivateRoute>
             },
             {
                 path: '/register',
@@ -32,5 +34,9 @@ export const routes = createBrowserRouter([
                 element: <Login></Login>
             }
         ]
+    },
+    {
+        path: '*',
+        element: <NotFound></NotFound>
     }
 ])

@@ -70,7 +70,7 @@ const Login = () => {
 
     //     <form action="" className="mx-auto mt-8 mb-0 max-w-md space-y-4">
     //       <div>
-    //         <label for="email" className="sr-only">
+    //         <label htmlFor="email" className="sr-only">
     //           Email
     //         </label>
 
@@ -101,7 +101,7 @@ const Login = () => {
     //       </div>
 
     //       <div>
-    //         <label for="password" className="sr-only">
+    //         <label htmlFor="password" className="sr-only">
     //           Password
     //         </label>
     //         <div className="relative">
@@ -188,15 +188,15 @@ const Login = () => {
                             </div>
                         }
                     <h1 className="text-2xl font-bold text-center">Login</h1>
-                    <form onSubmit={handleSubmit} novalidate="" action="" className="space-y-6 ng-untouched ng-pristine ng-valid">
+                    <form onSubmit={handleSubmit} noValidate="" action="" className="space-y-6 ng-untouched ng-pristine ng-valid">
                         <div className="space-y-1 text-sm">
-                            <label for="username" className="block text-left  text-gray-400">
+                            <label htmlFor="username" className="block text-left  text-gray-400">
                             <span>Email</span>
                             </label>
                             <input type="text" name="email" id="username" placeholder="email" className="w-full px-4 py-3 rounded-md border-gray-700 bg-gray-600 text-gray-100 focus:border-violet-400" />
                         </div>
                         <div className="space-y-1 text-sm">
-                            <label for="password" className="block text-left text-gray-400">
+                            <label htmlFor="password" className="block text-left text-gray-400">
                                 <span>Password</span>
                             </label>
                             <input type="password" name="password" id="password" placeholder="Password" className="w-full px-4 py-3 rounded-md border-gray-700 bg-gray-600 text-gray-100 focus:border-violet-400" />

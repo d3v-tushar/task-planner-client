@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 
 const Navbar = ({ dark, setDark }) => {
+  const {logout, user} = useContext(AuthContext);
+
+  const handleLogout = () =>{
+    logout().catch(error => console.log(error))
+  };
   return (
     <header aria-label="Site Header" className="bg-gray-200 dark:bg-gray-900">
       <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
@@ -67,21 +73,20 @@ const Navbar = ({ dark, setDark }) => {
 
           <div className="flex items-center gap-4">
             <div className="sm:flex sm:gap-4">
-              <Link
+              {
+                user ? <button onClick={handleLogout} className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow dark:hover:bg-teal-500">Logout</button> : <Link
                 className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow dark:hover:bg-teal-500"
-                to="/login"
-              >
-                Login
-              </Link>
+                to="/login">Login</Link>
+              }
 
-              <div className="hidden sm:flex">
+              {/* <div className="hidden sm:flex">
                 <Link
+                  to='/register'
                   className="rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-teal-600 dark:bg-gray-800 dark:text-white dark:hover:text-white/75"
-                  to="/register"
                 >
                   Register
                 </Link>
-              </div>
+              </div> */}
             </div>
 
             <div className="block md:hidden">

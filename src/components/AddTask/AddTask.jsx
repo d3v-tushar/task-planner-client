@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 import { AuthContext } from "../../context/AuthProvider/AuthProvider";
 
 const AddTask = () => {
     const {user} = useContext(AuthContext);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
-    const entryDate = new Date().toLocaleDateString('en-us', { year:"numeric", month:"numeric", day:"numeric"});
+    const entryDate = new Date().toLocaleString();
     const imageKey = import.meta.env.VITE_imgbb_key;
     const handleTaskSubmit = (data) =>{
         const image = data.image[0];
@@ -38,7 +39,7 @@ const AddTask = () => {
                 .then(res => res.json())
                 .then(result =>{
                     console.log(result);
-
+                    toast.success("Task Added!");
                 })
             }
         })
@@ -48,7 +49,7 @@ const AddTask = () => {
       <div className="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-x-16 gap-y-8 lg:grid-cols-5">
           <div className="rounded-lg bg-white p-8 shadow-lg lg:col-span-3 lg:p-12">
-            <h2 className="text-3xl my-4 font-bold text-center text-gray-900">Add You Task Here</h2>
+            <h2 className="text-3xl my-4 font-bold text-center text-gray-900">Add Your Task Here</h2>
             <form onSubmit={handleSubmit(handleTaskSubmit)} className="space-y-4">
               <div>
                 <label className="sr-only" htmlFor="name">
